@@ -1,0 +1,31 @@
+/* 设备身份台账页样式 */
+.ruling{border-left:3px solid var(--accent)}
+.ruling__text{font-size:12px;line-height:1.9;color:var(--ink);margin:10px 2px}
+.ruling__badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font:10px var(--font-ui);border:1px solid var(--line-strong);white-space:nowrap}
+.badge--pending{color:var(--warn);border-color:var(--warn)}
+.badge--ok{color:var(--ok);border-color:var(--ok)}
+.badge--off{color:var(--bad);border-color:var(--bad)}
+.muted{color:var(--ink-muted);font-size:11px;padding:12px 2px}
+.link-list{display:grid;gap:14px;margin-top:10px}
+.link-card{border:1px solid var(--line);border-radius:4px;padding:14px;background:var(--surface)}
+.link-card__head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.link-code{font-size:13px;margin-right:10px}
+.link-id{color:var(--ink-muted);font:10px var(--font-num)}
+.continuity{margin:10px 0;font-size:11px;color:var(--ink-muted)}
+.basis{margin:8px 0;font-size:11px;color:var(--warn)}
+.joined{margin-top:8px;font-size:11px}
+.joined b{color:var(--accent)}
+.audit{margin-top:10px}
+.audit table{font-size:10px}
+.actions{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.actions button{height:27px}
+.actions button:disabled{opacity:.4;cursor:not-allowed}
+.revision{color:var(--ink-muted);font:10px var(--font-num)}
+.failures{margin-top:10px;padding:10px;border:1px solid var(--bad);border-radius:3px;color:var(--bad);font:10px var(--font-num);white-space:pre-wrap}
+.ledger-form{margin-top:12px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.ledger-form label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--ink-muted)}
+.ledger-form input{height:29px;padding:4px 9px;border:1px solid var(--line);border-radius:3px;background:var(--bg);color:var(--ink);font:11px var(--font-num)}
+.ledger-form .full{margin:10px 0}
+.ledger-form button[type=submit]{margin-top:12px}

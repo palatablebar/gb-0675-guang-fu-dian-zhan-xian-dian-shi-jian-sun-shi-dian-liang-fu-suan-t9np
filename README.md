@@ -2,7 +2,7 @@
 
 给新能源场站运营分析员使用。仅用有效对照逆变器和相同辐照区间拟合基线；重叠限电事件先求并集再积分。
 
-七个业务模块：遥测采信、设备映射、事件切片、基线拟合、损失核算、能量对账、运行归档。
+八个业务模块：遥测采信、设备映射、事件切片、基线拟合、损失核算、能量对账、运行归档、身份台账。
 
 ```sh
 docker compose up --build -d
@@ -11,7 +11,11 @@ docker compose exec -T app pytest -q
 
 访问 http://localhost:18244 。启动直接载入现场脏批。切换干净样例和旧编码样例可对照核验。完整对照批INV-A重叠事件取并集后30分钟，基线100kW、实际60kW，损失20kWh；无合格对照或遥测冲突必须保持未定，不能填0。
 
-各模块页面对应 `/<模块英文名>`，各模块执行入口为 `POST /api/<模块英文名>`，不传参即可独立演示。完整运行 `POST /api/runs` 支持 `dataset`（dirty/clean/legacy）、`csv_text` 与 `overrides` 参数。批次历史 `GET /api/runs`，详情 `GET /api/runs/{run_id}`。
+各模块页面对应 `/<模块英文名>`，各模块执行入口为 `POST /api/<模块英文名>`，不传参即可独立演示。完整运行 `POST /api/runs` 支持 `dataset`（dirty/clean/legacy/swap）、`csv_text` 与 `overrides` 参数。批次历史 `GET /api/runs`，详情 `GET /api/runs/{run_id}`。
+
+## 设备身份台账（换型双编号）
+
+裁定**待证后并**：换型后新旧编号先经 `POST /api/identity/links` 登记为“待确认”链路，两段履历保持独立、损失不汇总；凭证齐全并通过五类审计校验（凭证完整、资产编号一致、相邻设备排他说明、运行时段不重叠、编号互斥）后，`POST /api/identity/links/{id}/confirm` 在单事务内原子确认，同一 `physical_id` 下事件、基线依据与损失跨编号连续查看。确认失败只追加驳回审计、回滚写入，不留半合并；`POST /api/identity/links/{id}/withdraw` 撤回时仅重算该物理身份链路，其他链路与批次结果均不受影响。链路编号确定性派生，重复登记幂等不新增身份，原始编号与 runs 批次只读不覆盖。台账页 `/identity` 显示每段履历是否可连续追溯及待确认依据；归档包新增 `identity_ledger.json`。换型样例 `swap`：INV-C 旧编号损失 16.0000kWh、INV-C2 新编号 10.6667kWh，确认后连续损失 26.6667kWh，同区 INV-D 的误并请求会被 NEIGHBOR_RISK/CODE_BOUND 驳回。
 
 同输入与规则版本生成相同批号，只保留一条批次。复核入口 `POST /api/runs/{run_id}/review` 提交当前 `revision`，陈旧提交409。归档包只有一个下载入口 `GET /api/export/{run_id}`，含证据和运行摘要。原始隔离在页面同屏显示。
 

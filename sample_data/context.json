@@ -6,7 +6,8 @@
     "baseline",
     "loss",
     "reconcile",
-    "archive"
+    "archive",
+    "identity"
   ],
   "devices": {
     "INV-A": {
@@ -37,6 +38,31 @@
     "REF-B2": {
       "zone": "西区",
       "capacity_kw": "50",
+      "reference": true
+    },
+    "INV-C": {
+      "zone": "北区",
+      "capacity_kw": "80",
+      "reference": false
+    },
+    "INV-C2": {
+      "zone": "北区",
+      "capacity_kw": "80",
+      "reference": false
+    },
+    "INV-D": {
+      "zone": "北区",
+      "capacity_kw": "80",
+      "reference": false
+    },
+    "REF-C1": {
+      "zone": "北区",
+      "capacity_kw": "80",
+      "reference": true
+    },
+    "REF-C2": {
+      "zone": "北区",
+      "capacity_kw": "80",
       "reference": true
     }
   },

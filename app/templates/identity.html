@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block scripts %}<link href="/static/identity.css" rel="stylesheet"><script src="/static/identity.js" defer></script>{% endblock %}
+{% block content %}
+<section class="panel ruling">
+  <div class="panel__head"><h2>裁定：待证后并</h2><span>审计优先 · 禁止无据合并</span></div>
+  <p class="ruling__text">换型后新旧编号先登记为<b>待确认链路</b>，两段履历保持独立、损失不汇总、编号不共用；更换凭证齐全并通过审计校验后，才在单事务内原子切换为同一物理身份。任一校验失败则整体回退到待确认，不产生半合并。</p>
+  <div class="ruling__badges">
+    <span class="badge badge--pending">待确认：可登记、不可连续追溯</span>
+    <span class="badge badge--ok">已确认：跨编号连续追溯</span>
+    <span class="badge badge--off">已撤回/已驳回：履历拆回独立</span>
+  </div>
+</section>
+
+<section class="panel main-panel">
+  <div class="panel__head"><h2>本批次编号履历（批次视角，原始编号不可变）</h2><span>{{ view.rows|length }} 个编号</span></div>
+  {{ evidence(view.rows) }}
+</section>
+
+<section class="panel">
+  <div class="panel__head"><h2>换型链路台账</h2><span id="link-count">读取中…</span></div>
+  <div id="link-list" class="link-list"><p class="muted">加载中…</p></div>
+</section>
+
+<section class="panel">
+  <div class="panel__head"><h2>登记换型链路（值班交接）</h2><span>确定性编号 · 重试不新增身份</span></div>
+  <form id="register-form" class="ledger-form">
+    <div class="form-grid">
+      <label>旧编号<input name="old_code" required placeholder="如 INV-C"></label>
+      <label>新编号<input name="new_code" required placeholder="如 INV-C2"></label>
+      <label>更换时刻（带时区）<input name="replaced_at" required placeholder="2026-10-15T09:35:00+08:00"></label>
+      <label>安装位置<input name="location" required placeholder="如 北区-3号机位"></label>
+      <label>旧资产编号<input name="asset_no_old" placeholder="凭证未到可留空"></label>
+      <label>新资产编号<input name="asset_no_new" placeholder="凭证未到可留空"></label>
+      <label>换型工作票号<input name="work_order" placeholder="DOC-WO-..."></label>
+      <label>资产台账记录<input name="asset_record" placeholder="DOC-AR-..."></label>
+      <label>更换现场照片<input name="replacement_photo" placeholder="DOC-PH-..."></label>
+      <label>交接验收单<input name="acceptance_form" placeholder="DOC-AF-..."></label>
+    </div>
+    <label class="full">备注<input name="notes" placeholder="交接说明（可选）"></label>
+    <button type="submit">登记待确认链路</button>
+  </form>
+</section>
+
+<template id="link-template">
+  <article class="link-card">
+    <header class="link-card__head">
+      <div><b class="link-code"></b><span class="link-id"></span></div>
+      <span class="badge"></span>
+    </header>
+    <p class="continuity"></p>
+    <div class="segments"></div>
+    <div class="basis"></div>
+    <div class="audit"></div>
+    <div class="actions">
+      <button class="act-confirm" type="button">补齐凭证并确认</button>
+      <button class="act-withdraw" type="button">撤回链路</button>
+      <span class="revision"></span>
+    </div>
+    <pre class="failures" hidden></pre>
+  </article>
+</template>
+{% endblock %}

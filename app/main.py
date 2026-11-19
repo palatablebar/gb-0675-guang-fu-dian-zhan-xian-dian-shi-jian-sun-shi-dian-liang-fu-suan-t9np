@@ -47,6 +47,8 @@ def review(run_id:str,payload:dict=Body(...)):
 @app.get('/api/export/{run_id}')
 def export(run_id:str):
     result=store.get(DB_PATH,run_id)
-    return Response(serialize(result),media_type='application/zip',headers={'Content-Disposition':f'attachment; filename="{run_id}.zip"'})
+    from app import identity_db
+    ledger={'links':identity_db.list_links(DB_PATH),'chains':identity_db.all_chains(DB_PATH)}
+    return Response(serialize(result,ledger),media_type='application/zip',headers={'Content-Disposition':f'attachment; filename="{run_id}.zip"'})
 for key in MODULES:
     app.include_router(import_module(f'app.modules.{key}.handler').router)

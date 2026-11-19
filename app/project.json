@@ -10,7 +10,8 @@
     "基线拟合",
     "损失核算",
     "能量对账",
-    "运行归档"
+    "运行归档",
+    "身份台账"
   ],
   "rule": "仅用有效对照逆变器和相同辐照区间拟合基线；重叠限电事件先求并集再积分",
   "lane": "L10",
@@ -29,7 +30,8 @@
     "baseline",
     "loss",
     "reconcile",
-    "archive"
+    "archive",
+    "identity"
   ],
   "labels": {
     "id": "证据号",
@@ -67,6 +69,8 @@
     "unknown_seconds": "未定 s",
     "line": "原始行",
     "_line": "原始行",
-    "detail": "原因"
+    "detail": "原因",
+    "segments": "片段数",
+    "unknown": "未定片段"
   }
 }
